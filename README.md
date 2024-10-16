@@ -31,12 +31,20 @@ helm repo update
 - Install Prometheus and Grafana: helm install prometheus prometheus-community/kube-prometheus-stack
 
 ### 2. Access Grafana 
-- Get the Grafana pod name: kubectl get pods -n default -l app.kubernetes.io/name=grafana
-- Port forward to access Grafana: kubectl port-forward svc/prometheus-grafana 3000:80
-- Open Grafana in a browser: http://localhost:3000
-
-Username: ****
-Password: *****
+- Get the Grafana pod name:
+  ```
+   kubectl get pods -n default -l app.kubernetes.io/name=grafana
+  ```
+- Port forward to access Grafana:
+  ```
+  kubectl port-forward svc/prometheus-grafana 3000:80
+  ```
+- Open Grafana in a browser:
+  ```
+  http://localhost:3000
+  Username: ****
+  Password: *****
+  ```
 
 ### 3. Creating a Dashboard
 - Log in to Grafana.
@@ -46,18 +54,21 @@ Password: *****
 #### Example queries:
 
 #### CPU Usage:
+```
 <sum(rate(container_cpu_usage_seconds_total{namespace!=""}[5m])) by (namespace)>
+```
 
 #### Memory Usage:
+```
 <sum(container_memory_usage_bytes{namespace!=""}) by (namespace)>
-
+```
 - Configure the visualization type (e.g., graph, gauge) and save the dashboard.
 
 ### 4. Setting Up Alerting
 
 1. Configure Alertmanager for Slack Notifications
 - Edit the Alertmanager configuration to send alerts to Slack:
-
+```
 global:
   resolve_timeout: 5m
 
@@ -74,14 +85,14 @@ receivers:
   - api_url: '<YOUR_SLACK_WEBHOOK_URL>'
     channel: '#alerts'
     send_resolved: true
-Replace <YOUR_SLACK_WEBHOOK_URL> with your actual Slack webhook URL.
-
+# Replace <YOUR_SLACK_WEBHOOK_URL> with your actual Slack webhook URL.
+```
 2. Apply the Config
 - Edit the Alertmanager ConfigMap: kubectl edit configmap alertmanager-prometheus-kube-prometheus-alertmanager -n default
 
 3. Create Alerts in Prometheus
 - Define alerts in Prometheus for high resource usage. Example alert for high CPU usage:
-"""
+```
 groups:
 - name: resource-alerts
   rules:
@@ -93,7 +104,8 @@ groups:
     annotations:
       summary: "High CPU usage detected"
       description: "CPU usage is above 80% for more than 5 minutes."
-"""
+```
+
 ### 5. Testing Slack Notifications
 You can test Slack notifications by triggering an alert or adjusting resource usage to meet the defined thresholds.
 
