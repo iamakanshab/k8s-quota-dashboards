@@ -32,19 +32,19 @@ helm repo update
 
 ### 2. Access Grafana 
 - Get the Grafana pod name:
-  ```
-   kubectl get pods -n default -l app.kubernetes.io/name=grafana
-  ```
+```
+kubectl get pods -n default -l app.kubernetes.io/name=grafana
+```
 - Port forward to access Grafana:
-  ```
-  kubectl port-forward svc/prometheus-grafana 3000:80
-  ```
+```
+kubectl port-forward svc/prometheus-grafana 3000:80
+```
 - Open Grafana in a browser:
-  ```
-  http://localhost:3000
-  Username: ****
-  Password: *****
-  ```
+```
+http://localhost:3000
+Username: ****
+Password: *****
+```
 
 ### 3. Creating a Dashboard
 - Log in to Grafana.
