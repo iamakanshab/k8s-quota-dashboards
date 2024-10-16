@@ -22,23 +22,18 @@ This repository provides a guide for setting up a Kubernetes monitoring dashboar
 
 ### 1. Install Prometheus and Grafana
 
-Add the necessary Helm repositories:
+- Add the necessary Helm repositories:
 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 
-Install Prometheus and Grafana:
-helm install prometheus prometheus-community/kube-prometheus-stack
+- Install Prometheus and Grafana: helm install prometheus prometheus-community/kube-prometheus-stack
 
 ### 2. Access Grafana 
-Get the Grafana pod name:
-kubectl get pods -n default -l app.kubernetes.io/name=grafana
-
-Port forward to access Grafana:
-kubectl port-forward svc/prometheus-grafana 3000:80
-
-Open Grafana in a browser: http://localhost:3000
+- Get the Grafana pod name: kubectl get pods -n default -l app.kubernetes.io/name=grafana
+- Port forward to access Grafana: kubectl port-forward svc/prometheus-grafana 3000:80
+- Open Grafana in a browser: http://localhost:3000
 
 Username: ****
 Password: *****
@@ -48,13 +43,12 @@ Password: *****
 - Click on the "+" icon in the left sidebar, then select "Dashboard".
 - Add a new panel:
 - Use Prometheus as the data source.
+#### Example queries:
 
-/Example queries:/
-
-CPU Usage:
+#### CPU Usage:
 <sum(rate(container_cpu_usage_seconds_total{namespace!=""}[5m])) by (namespace)>
 
-Memory Usage:
+#### Memory Usage:
 <sum(container_memory_usage_bytes{namespace!=""}) by (namespace)>
 
 - Configure the visualization type (e.g., graph, gauge) and save the dashboard.
@@ -62,7 +56,7 @@ Memory Usage:
 ### 4. Setting Up Alerting
 
 1. Configure Alertmanager for Slack Notifications
-Edit the Alertmanager configuration to send alerts to Slack:
+- Edit the Alertmanager configuration to send alerts to Slack:
 
 global:
   resolve_timeout: 5m
@@ -83,11 +77,10 @@ receivers:
 Replace <YOUR_SLACK_WEBHOOK_URL> with your actual Slack webhook URL.
 
 2. Apply the Config
-Edit the Alertmanager ConfigMap:
-kubectl edit configmap alertmanager-prometheus-kube-prometheus-alertmanager -n default
+- Edit the Alertmanager ConfigMap: kubectl edit configmap alertmanager-prometheus-kube-prometheus-alertmanager -n default
 
 3. Create Alerts in Prometheus
-Define alerts in Prometheus for high resource usage. Example alert for high CPU usage:
+- Define alerts in Prometheus for high resource usage. Example alert for high CPU usage:
 """
 groups:
 - name: resource-alerts
