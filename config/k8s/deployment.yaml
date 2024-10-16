@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quotas-dashboard
+  labels:
+    app: quotas-dashboard
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: quotas-dashboard
+  template:
+    metadata:
+      labels:
+        app: quotas-dashboard
+    spec:
+      containers:
+      - name: quotas-dashboard
+        image: quotas-dashboard:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SLACK_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: slack-secret
+              key: token
