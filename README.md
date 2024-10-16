@@ -86,7 +86,7 @@ kubectl edit configmap alertmanager-prometheus-kube-prometheus-alertmanager -n d
 
 3. Create Alerts in Prometheus
 Define alerts in Prometheus for high resource usage. Example alert for high CPU usage:
-
+'''
 groups:
 - name: resource-alerts
   rules:
@@ -98,11 +98,11 @@ groups:
     annotations:
       summary: "High CPU usage detected"
       description: "CPU usage is above 80% for more than 5 minutes."
-
-Testing Slack Notifications
+'''
+### 4. Testing Slack Notifications
 You can test Slack notifications by triggering an alert or adjusting resource usage to meet the defined thresholds.
 
-Conclusion
+### 5. Conclusion
 You now have a functional Grafana dashboard to monitor Kubernetes resource usage and alerting configured to send notifications to Slack. Feel free to customize the dashboard and alert configurations as needed!
 For any further questions or assistance, please open an issue in this repository.
 
