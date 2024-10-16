@@ -23,11 +23,11 @@ This repository provides a guide for setting up a Kubernetes monitoring dashboar
 ### 1. Install Prometheus and Grafana
 
 - Add the necessary Helm repositories:
-
+```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
-
+```
 - Install Prometheus and Grafana: helm install prometheus prometheus-community/kube-prometheus-stack
 
 ### 2. Access Grafana 
