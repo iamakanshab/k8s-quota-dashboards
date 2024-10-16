@@ -44,24 +44,26 @@ Username: ****
 Password: *****
 
 ### 3. Creating a Dashboard
-Log in to Grafana.
-Click on the "+" icon in the left sidebar, then select "Dashboard".
-Add a new panel:
-Use Prometheus as the data source.
+- Log in to Grafana.
+- Click on the "+" icon in the left sidebar, then select "Dashboard".
+- Add a new panel:
+- Use Prometheus as the data source.
 
-Example queries:
+/Example queries:/
 
 CPU Usage:
-
-sum(rate(container_cpu_usage_seconds_total{namespace!=""}[5m])) by (namespace)
+<sum(rate(container_cpu_usage_seconds_total{namespace!=""}[5m])) by (namespace)>
 
 Memory Usage:
-sum(container_memory_usage_bytes{namespace!=""}) by (namespace)
+<sum(container_memory_usage_bytes{namespace!=""}) by (namespace)>
 
-Configure the visualization type (e.g., graph, gauge) and save the dashboard.
-Setting Up Alerting
+- Configure the visualization type (e.g., graph, gauge) and save the dashboard.
+
+### 4. Setting Up Alerting
+
 1. Configure Alertmanager for Slack Notifications
 Edit the Alertmanager configuration to send alerts to Slack:
+
 global:
   resolve_timeout: 5m
 
@@ -86,7 +88,7 @@ kubectl edit configmap alertmanager-prometheus-kube-prometheus-alertmanager -n d
 
 3. Create Alerts in Prometheus
 Define alerts in Prometheus for high resource usage. Example alert for high CPU usage:
-'''
+"""
 groups:
 - name: resource-alerts
   rules:
@@ -98,11 +100,11 @@ groups:
     annotations:
       summary: "High CPU usage detected"
       description: "CPU usage is above 80% for more than 5 minutes."
-'''
-### 4. Testing Slack Notifications
+"""
+### 5. Testing Slack Notifications
 You can test Slack notifications by triggering an alert or adjusting resource usage to meet the defined thresholds.
 
-### 5. Conclusion
+### 6. Conclusion
 You now have a functional Grafana dashboard to monitor Kubernetes resource usage and alerting configured to send notifications to Slack. Feel free to customize the dashboard and alert configurations as needed!
 For any further questions or assistance, please open an issue in this repository.
 
