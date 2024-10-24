@@ -32,8 +32,10 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 ```
-- Install Prometheus and Grafana: helm install prometheus prometheus-community/kube-prometheus-stack
-
+- Install Prometheus and Grafana:
+```
+  helm install prometheus prometheus-community/kube-prometheus-stack
+```
 ### 2. Access Grafana 
 - Get the Grafana pod name:
 ```
