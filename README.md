@@ -36,7 +36,7 @@ helm repo update
 ```
   helm install prometheus prometheus-community/kube-prometheus-stack
 ```
-### 2. Access Grafana 
+### 2. View Grafana installs
 - Get the Grafana pod name:
 ```
 kubectl get pods -n default -l app.kubernetes.io/name=grafana
@@ -44,15 +44,26 @@ kubectl get pods -n default -l app.kubernetes.io/name=grafana
 - Port forward to access Grafana:
 ```
 kubectl port-forward svc/prometheus-grafana 3000:80
+
+### 3. Deploy Grafana the Dashboard WEB UI
 ```
-- Open Grafana in a browser:
+kubectl create namespace monitoring
+helm search repo grafana/grafana
+helm install my-grafana grafana/grafana --namespace monitoring
+helm list -n monitoring
+kubectl get all -n monitoring
 ```
+### 4. Access Grafana
+helm get notes my-grafana -n monitoring
+kubectl get secret --namespace monitoring my-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+export POD_NAME=$(kubectl get pods --namespace monitoring -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=my-grafana" -o jsonpath="{.items[0].metadata.name}")
+kubectl --namespace monitoring port-forward $POD_NAME 3000
 http://localhost:3000
 Username: ****
 Password: *****
 ```
 
-### 3. Creating a Dashboard
+### 5. Creating a Dashboard
 - Log in to Grafana.
 - Click on the "+" icon in the left sidebar, then select "Dashboard".
 - Add a new panel:
@@ -70,7 +81,7 @@ Password: *****
 ```
 - Configure the visualization type (e.g., graph, gauge) and save the dashboard.
 
-### 4. Setting Up Alerting
+### 6. Setting Up Alerting
 
 1. Configure Alertmanager for Slack Notifications
 - Edit the Alertmanager configuration to send alerts to Slack:
@@ -112,10 +123,10 @@ groups:
       description: "CPU usage is above 80% for more than 5 minutes."
 ```
 
-### 5. Testing Slack Notifications
+### 7. Testing Slack Notifications
 You can test Slack notifications by triggering an alert or adjusting resource usage to meet the defined thresholds.
 
-### 6. Conclusion
+### 8. Conclusion
 You now have a functional Grafana dashboard to monitor Kubernetes resource usage and alerting configured to send notifications to Slack. Feel free to customize the dashboard and alert configurations as needed!
 For any further questions or assistance, please open an issue in this repository.
 
