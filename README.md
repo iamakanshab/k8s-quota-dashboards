@@ -18,6 +18,10 @@ This repository provides a guide for setting up a Kubernetes monitoring dashboar
 - `kubectl` configured to interact with your cluster.
 - `Helm` installed.
 
+## Requesting a K8S Managed Cluster
+
+- Go to https://portal.azure.com/ and create a resource under resource group dvue-aig-infra-rg
+
 ## Installation
 
 ### 1. Install Prometheus and Grafana
